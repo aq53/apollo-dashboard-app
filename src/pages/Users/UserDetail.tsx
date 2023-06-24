@@ -1,7 +1,7 @@
 import React from "react";
 import {useParams} from "react-router-dom";
 import {useGetUserDetailQuery} from "../../store/users";
-import {Box, Card, Grid, Paper, Typography} from "@mui/material";
+import {Box, Card, Grid, Typography} from "@mui/material";
 import UsernameIcon from "@mui/icons-material/TextFieldsTwoTone";
 import EmailIcon from "@mui/icons-material/EmailTwoTone";
 import PhoneIcon from "@mui/icons-material/ContactPhone";
@@ -10,14 +10,18 @@ import WebsiteIcon from "@mui/icons-material/LanguageTwoTone";
 import CompanyIcon from "@mui/icons-material/BusinessTwoTone";
 import CustomTable from "../../components/CustomTable";
 import {useGetPostByUserIdQuery} from "../../store/posts";
-import {POST_TABLE_COLUMNS} from "../../constants";
+import {NOTIFICATION_MESSAGES, POST_TABLE_COLUMNS} from "../../constants";
 
 
 const IconColor = '#10b981'
 export default function UserDetail() {
     const params = useParams();
     const {data: userDetail, isLoading: isLoadingUser} = useGetUserDetailQuery(params?.id || "")
-    const {data: posts = [], isLoading: isLoadingPosts} = useGetPostByUserIdQuery(params?.id || '')
+    const {
+        data: posts = [],
+        isLoading: isLoadingPosts,
+        isError: isErrorFromGetPost
+    } = useGetPostByUserIdQuery(params?.id || '')
     return (
         <Box>
 
@@ -58,8 +62,8 @@ export default function UserDetail() {
                             </Box>
                             <Box>
                                 <p className={"font-bold"}>
-                                    {`${userDetail?.address.street}, ${userDetail?.address.suite}, 
-                                ${userDetail?.address.city}, ${userDetail?.address.zipcode}`}
+                                    {userDetail ? `${userDetail?.address.street || ""}, ${userDetail?.address.suite || ''}, 
+                                ${userDetail?.address.city || ''}, ${userDetail?.address.zipcode || ''}` : ''}
                                 </p>
                             </Box>
                         </Grid>
@@ -92,7 +96,11 @@ export default function UserDetail() {
 
             <Card className={"mt-4 p-3"}>
                 <Typography variant={'h4'}>Posts</Typography>
-                <CustomTable columns={POST_TABLE_COLUMNS} rows={posts} isLoading={isLoadingPosts}/>
+                <CustomTable
+                    isError={isErrorFromGetPost}
+                    errorMessage={isErrorFromGetPost ? NOTIFICATION_MESSAGES.NO_DATA_AVAILABLE : ''}
+                    columns={POST_TABLE_COLUMNS}
+                    rows={posts} isLoading={isLoadingPosts}/>
 
             </Card>
         </Box>

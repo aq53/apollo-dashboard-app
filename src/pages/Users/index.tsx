@@ -1,15 +1,13 @@
 import React from "react";
 import {useGetUsersQuery} from "../../store/users";
-import {Box, Card, Skeleton, Typography} from "@mui/material";
+import {Box, Card, Typography} from "@mui/material";
 import CustomTable from "../../components/CustomTable";
 import {useNavigate} from "react-router-dom";
 import {Row} from "../../types/Table";
-import {POST_TABLE_COLUMNS, USER_TABLE_COLUMNS} from "../../constants";
-import {useGetPostsQuery} from "../../store/posts";
+import {NOTIFICATION_MESSAGES, USER_TABLE_COLUMNS} from "../../constants";
 
 export default function Users() {
-    const {data: users = [], isLoading: isLoadingUser} = useGetUsersQuery()
-    const {data: posts = [], isLoading: isLoadingPosts, error} = useGetPostsQuery()
+    const {data: users = [], isLoading: isLoadingUser, isError: isErrorFromGetUsers} = useGetUsersQuery()
     const navigate = useNavigate();
     const routeToUserDetails = (row: Row) => {
         navigate(`/users/${row.id}`)
@@ -17,11 +15,13 @@ export default function Users() {
 
     return (
         <Box>
-            <Card className="p-3">
+            <Card className="p-3 mt-4">
                 <Typography variant={'h4'}>
                     Users
                 </Typography>
                 <CustomTable
+                    isError={isErrorFromGetUsers}
+                    errorMessage={isErrorFromGetUsers ? NOTIFICATION_MESSAGES.NO_DATA_AVAILABLE : ''}
                     columns={USER_TABLE_COLUMNS}
                     onClickRow={routeToUserDetails}
                     rows={users.map(row => ({
@@ -34,19 +34,6 @@ export default function Users() {
                     isLoading={isLoadingUser}
                 />
             </Card>
-
-
-            <Card className="p-3 mt-4">
-                <Typography variant={'h4'}>
-                    Posts
-                </Typography>
-                <CustomTable
-                    columns={POST_TABLE_COLUMNS}
-                    rows={posts}
-                    isLoading={isLoadingPosts}
-                />
-            </Card>
-
         </Box>
     );
 }

@@ -7,7 +7,7 @@ import {postApi} from "./posts";
 export const index = configureStore({
     reducer: {
         [userApi.reducerPath]: userApi.reducer,
-        [postApi.reducerPath]: postApi.reducer
+        [postApi.reducerPath]: postApi.reducer,
         // Add the generated reducer as a specific top-level slice
     },
     // Adding the api middleware enables caching, invalidation, polling,
