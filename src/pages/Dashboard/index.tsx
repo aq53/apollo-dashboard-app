@@ -1,7 +1,7 @@
 import React, {useMemo} from "react";
 import "../../components/DashboardWidget/styles.css";
 import {Box, Grid} from "@mui/material";
-import DashboardWidget from "../../components/DashboardWidget/DashboardWidget";
+import DashboardWidget from "../../components/DashboardWidget";
 import Posts from "../Posts";
 import Users from "../Users";
 import {useGetUsersQuery} from "../../store/users";

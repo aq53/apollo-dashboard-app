@@ -5,7 +5,7 @@ type Props = {
     count: number;
     title: string
 }
-export default function DashboardWidget({count, title}: Props) {
+export default function Index({count, title}: Props) {
     return (
         <div className="widget">
             <h3 className="widget-title">{title}</h3>
