@@ -1,5 +1,6 @@
-export const ROUTE_PATHS={
-    DASHBOARD:'/',
-    USERS:'/users',
-    POSTS:'/posts',
+export const ROUTE_PATHS = {
+    DASHBOARD: '/',
+    USERS: '/users',
+    USER_DETAIL: '/users/:id',
+    POSTS: '/posts',
 }

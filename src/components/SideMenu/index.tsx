@@ -7,50 +7,54 @@ import List from "@mui/material/List";
 import {DashboardCustomize, Feed, PeopleAlt} from "@mui/icons-material";
 import {useNavigate} from 'react-router-dom';
 import {ROUTE_PATHS} from "../../constants/routePaths";
-export default function SideMenu({isCompact}:{isCompact:boolean}){
-    const navigate=useNavigate();
-    const listItemButtonStyle=useMemo(()=>({minHeight: 48,
+
+
+type Props = { isCompact: boolean; navigate: (path: string) => void }
+export default function SideMenu({isCompact, navigate}: Props) {
+    const listItemButtonStyle = useMemo(() => ({
+        minHeight: 48,
         justifyContent: isCompact ? 'initial' : 'center',
         px: 2.5,
-    }),[isCompact])
+    }), [isCompact])
 
 
-    const listItemIconStyle=useMemo(()=>({minWidth: 0,
+    const listItemIconStyle = useMemo(() => ({
+        minWidth: 0,
         mr: isCompact ? 3 : 'auto',
         justifyContent: 'center',
-    }),[isCompact])
+    }), [isCompact])
 
-    const listItemTextStyle=useMemo(()=>({
+    const listItemTextStyle = useMemo(() => ({
         opacity: isCompact ? 1 : 0
-    }),[isCompact])
+    }), [isCompact])
 
-    const onClickMenuItem=useCallback((path:string)=>{
+    const onClickMenuItem = useCallback((path: string) => {
         navigate(path)
-    },[])
+    }, [])
 
-    return(
+    return (
         <List>
-            <ListItem  disablePadding sx={{ display: 'block' }}>
-                <ListItemButton sx={listItemButtonStyle} onClick={()=>onClickMenuItem(ROUTE_PATHS.DASHBOARD)}>
+            <ListItem disablePadding sx={{display: 'block'}}>
+                <ListItemButton sx={listItemButtonStyle} onClick={() => onClickMenuItem(ROUTE_PATHS.DASHBOARD)}>
                     <ListItemIcon sx={listItemIconStyle}>
-                        <DashboardCustomize />
+                        <DashboardCustomize/>
                     </ListItemIcon>
-                    <ListItemText primary="Dashboard" sx={listItemTextStyle} />
+                    <ListItemText primary="Dashboard" sx={listItemTextStyle}/>
                 </ListItemButton>
 
-                <ListItemButton sx={listItemButtonStyle} onClick={()=>onClickMenuItem(ROUTE_PATHS.USERS)}>
+                <ListItemButton sx={listItemButtonStyle} onClick={() => onClickMenuItem(ROUTE_PATHS.USERS)}>
                     <ListItemIcon sx={listItemIconStyle}>
-                        <PeopleAlt />
+                        <PeopleAlt/>
                     </ListItemIcon>
-                    <ListItemText primary="Users" sx={listItemTextStyle} />
+                    <ListItemText primary="Users" sx={listItemTextStyle}/>
                 </ListItemButton>
 
 
-                <ListItemButton onClick={()=>onClickMenuItem(ROUTE_PATHS.POSTS)} sx={listItemButtonStyle}>
+                <ListItemButton onClick={() => onClickMenuItem(ROUTE_PATHS.POSTS)} sx={listItemButtonStyle}>
                     <ListItemIcon sx={listItemIconStyle}>
-                        <Feed />
+                        <Feed/>
                     </ListItemIcon>
-                    <ListItemText primary="Posts" sx={listItemTextStyle} />
+                    <ListItemText primary="Posts" sx={listItemTextStyle}/>
                 </ListItemButton>
             </ListItem>
         </List>
